@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="225dp"
+    android:orientation="vertical"
+    android:background="@color/endBackground2">
+
+    <ImageView
+        android:id="@+id/iv_date"
+        android:layout_width="match_parent"
+        android:layout_height="175dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/kurma_ajwa"
+        android:contentDescription="@string/image_date"/>
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:fontFamily="@font/montserrat"
+        android:text="@string/ajwa"
+        android:textColor="@color/text"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
+
+
+
+</LinearLayout>

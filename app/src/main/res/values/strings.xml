@@ -1,0 +1,107 @@
+<resources>
+    <string name="app_name">OpenCVTest</string>
+    <string name="identification">Identification</string>
+    <string name="help">Help</string>
+    <string name="information">Information</string>
+    <string name="about">About</string>
+    <string name="date_detection">Date Detection</string>
+    <string name="application_identification_of_dates">Application identification of dates</string>
+    <string name="image_date">image date</string>
+    <string name="about_desc">Aplikasi ini digunakan untuk mengidentifikasi 3 jenis buah kurma yaitu Kurma Ajwa, Kurma Sukari, dan Kurma Deglet Nour. Aplikasi Deteksi Kurma ini dibuat oleh Mochamad Fandi yang digunakan sebagai Tugas Akhir.</string>
+    <string name="back">back</string>
+    <string name="help_desc">
+        <b>Petunjuk Penggunaan Aplikasi Deteksi Kurma :</b>\n\n
+        <ul>
+            <li>Pada halaman utama, tekan tombol Identification.</li>\n
+            <li>Selanjutnya tekan tombol pilih gambar dan pilih mengambil gambar dari kamera atau dari gallery smartphone</li>\n
+            <li>Setelah gambar sesuai dengan yang diinginkan muncul, selanjutnya tekan tombol proses.</li>\n
+            <li>Hasilnya akan menampilkan citra asli, citra hasil pengolahan, dan hasil identifikasi jenis kurma.</li>\n
+            <li>Untuk melihat detail proses tekan tombol detail proses.</li>\n
+            <li>Jika ingin mendeteksi kurma lagi tekan tombol deteksi lagi.</li>\n
+            <li>Untuk kembali ke halaman utama tekan tombol home.</li>\n
+        </ul>
+
+
+
+    </string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="ajwa">Kurma Ajwa</string>
+    <string name="sukari">Kurma Sukari</string>
+    <string name="deglet_nour">Kurma Deglet Nour</string>
+    <string name="ajwa_image">Gambar Kurma Ajwa</string>
+    <string name="sukari_image">Gambar Kurma Sukari</string>
+    <string name="deglet_image">Gambar Kurma Deglet Nour</string>
+    <string name="ajwa_desc">
+        Kurma ajwa atau yang sering disebut dengan kurma Nabi merupakan salah satu jenis kurma
+        yang banyak diminati oleh masyarakat di Indonesia terutama umat Islam. Hal ini dikarenakan
+        Nabi Muhammad SAW bersabda: Barangsiapa mengkonsumsi tujuh butir kurma ajwa pada pagi hari
+        itu ia tidak akan terkena racun maupun sihir. Oleh karena itu, kurma ajwa menjadi makanan
+        favorit Nabi. Sehingga kurma ini dikenal juga sebagai kurma Nabi. Kurma ini banyak tumbuh di
+        daerah sekitar Kota Madina
+
+    </string>
+    <string name="overview">Overview</string>
+    <string name="ajwa_cha">
+        <ul>
+            <li>Memiliki warna hitam pekat.</li>\n
+            <li>Memiliki ukuran bentuk relatif kecil.</li>\n
+            <li>Memiliki tekstur berupa guratan di permukaan kulit kurma.</li>\n
+            <li>Memiliki rasa yang tidak terlalu manis.</li>
+        </ul>
+    </string>
+    <string name="characteristic">Characteristic</string>
+    <string name="sukari_desc">
+        Kurma sukari merupakan jenis kurma yang banyak digemari oleh para raja di Timur Tengah. Kurma satu ini
+        digemari karena rasanya sangat manis. Sukari berasal dari kata dalam bahasa arab yang berarti
+        gula. Kurma ini termasuk kurma termahal setelah kurma ajwa, ada banyak faktor yang mempengaruhi
+        harga kurma sukari yaitu dilihat dari bentuk, ukuran, dan rasa. Kurma jenis ini dibudidayakan di
+        Provinsi Al-Qaseem di Saudi Arabia.
+    </string>
+    <string name="sukari_cha">
+        <ul>
+            <li>Memiliki warna coklat muda seperti karamel</li>\n
+            <li>Pada bagian ujung kurma berwarna kuning ranum</li>\n
+            <li>Memiliku ukuran relatif besar</li>\n
+            <li>Memiliki rasa yang sangat manis</li>\n
+        </ul>
+    </string>
+    <string name="deglet_desc">
+        Kurma deglet nour merupakan kurma yang berasal dari Algeria dan Tunisia, sehingga dikenal dengan
+        nama kurma Tunisia atau bisa disebut deglet nour. Kurma jenis ini sangat mudah ditemui di Indonesia,
+        kurma ini banyak dijual di supermarket dengan merk bermacam-macam. Berbeda dengan jenis lainnya, deglet nour
+        memiliki warna coklat yang lebih cerah, rasa yang legit dan tidak terlalu manis. Kurma jenis ini
+        juga sering diolah menjadi adonan kue atau makanan lainnya.
+    </string>
+    <string name="deglet_cha">
+        <ul>
+            <li>Memiliki warna coklat cerah</li>\n
+            <li>Memiliki ukuran relatif besar</li>\n
+            <li>Memiliki bentuk oval atau lonjong</li>\n
+            <li>Memiliki rasa yang manis</li>
+        </ul>
+    </string>
+    <string name="start_identification">Start Identification</string>
+    <string name="select_date_image">Please select the desired date image :</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="preview_image">Preview Image</string>
+    <string name="process">Process</string>
+    <string name="source_image">Original Image</string>
+    <string name="result_image">Image Processing Result</string>
+    <string name="identification_results">Date Identification Results</string>
+    <string name="kurma_ajwa">Kurma ajwa</string>
+    <string name="type_of_date_palm">Type of Date Palm :</string>
+    <string name="energy">Energy</string>
+    <string name="contrast">Contrast</string>
+    <string name="correlation">Correlation</string>
+    <string name="entropy">Entropy</string>
+    <string name="homogeneity">Homogeneity</string>
+    <string name="glcm_feature_details">GLCM Feature Details :</string>
+    <string name="analysis_details">Analysis Details</string>
+    <string name="detail_process">Detail Process</string>
+    <string name="home">Home</string>
+    <string name="detail_image">Detail Image</string>
+
+
+</resources>
