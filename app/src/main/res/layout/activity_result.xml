@@ -70,6 +70,13 @@
             android:contentDescription="@string/source_image"
             android:src="@drawable/ic_camera_white_150dp" />
 
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="24dp"
+            android:background="@color/endBackground2" />
+
         <TextView
             android:id="@+id/tv_result"
             android:layout_width="wrap_content"
@@ -80,11 +87,6 @@
             android:textColor="@color/endBackground2"
             android:textSize="16sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="24dp"
-            android:background="@color/endBackground2" />
 
         <ImageView
             android:id="@+id/iv_after"
@@ -291,6 +293,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="64dp"
+            android:padding="8dp"
             android:background="@drawable/bg_button"
             android:text="@string/detail_process"
             android:textColor="@color/text"

@@ -40,7 +40,7 @@ public class PreviewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent water = new Intent(PreviewActivity.this, ResultActivity.class);
-                water.putExtra("WATER_SEGMENT", imagePath);
+                water.putExtra("SRC_PATH", imagePath);
                 startActivity(water);
             }
         });

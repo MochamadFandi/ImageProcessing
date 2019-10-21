@@ -28,11 +28,18 @@ public class DetailActivity extends AppCompatActivity {
         RecyclerView rvDetail = findViewById(R.id.rv_detail);
         ImageView ivBack = findViewById(R.id.iv_back);
 
-        byte[] byteArray = getIntent().getByteArrayExtra("BITMAP DATA");
+        BitmapFactory.Options mBitmapOptions = new BitmapFactory.Options();
+        mBitmapOptions.inScaled = true;
+        mBitmapOptions.inSampleSize = 4;
+
+        final String srcPath = getIntent().getStringExtra("SRC_PATH");
+        final Bitmap srcBmp = BitmapFactory.decodeFile(srcPath,mBitmapOptions);
+
+        byte[] byteArray = getIntent().getByteArrayExtra("SEGMENT_DATA");
         Bitmap resultBmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 
 
-        detail.add(new DetailItem("Original Image", resultBmp));
+        detail.add(new DetailItem("Original Image", srcBmp));
         detail.add(new DetailItem("Grayscale", resultBmp));
         detail.add(new DetailItem("Filter Median", resultBmp));
         detail.add(new DetailItem("Watershed Segmentation", resultBmp));
@@ -46,6 +53,7 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent move = new Intent(DetailActivity.this, ResultActivity.class);
+                move.putExtra("SRC_PATH",srcPath);
                 startActivity(move);
             }
         });

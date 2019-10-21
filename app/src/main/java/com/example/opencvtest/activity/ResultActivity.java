@@ -33,7 +33,7 @@ import java.util.Random;
 
 public class ResultActivity extends AppCompatActivity {
     protected static final String TAG = null;
-    private Bitmap imageBmp, resultBmp;
+    private  Bitmap imageBmp, resultBmp;
     private ImageView ivAfter;
     Mat rgb = new Mat();
     Mat srcMat = new Mat();
@@ -76,10 +76,11 @@ public class ResultActivity extends AppCompatActivity {
         mBitmapOptions.inScaled = true;
         mBitmapOptions.inSampleSize = 4;
 
-        String imagePath = getIntent().getStringExtra("WATER_SEGMENT");
+        final String imagePath = getIntent().getStringExtra("SRC_PATH");
         imageBmp = BitmapFactory.decodeFile(imagePath, mBitmapOptions);
         Glide.with(ResultActivity.this).asBitmap().load(imageBmp).into(ivBefore);
         watershed3();
+
 
 
         ivBack.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +107,8 @@ public class ResultActivity extends AppCompatActivity {
                 byte[] byteArray = stream.toByteArray();
 
                 Intent move = new Intent(ResultActivity.this, DetailActivity.class);
-                move.putExtra("BITMAP DATA", byteArray);
+                move.putExtra("SRC_PATH",imagePath);
+                move.putExtra("SEGMENT_DATA", byteArray);
                 startActivity(move);
             }
         });
@@ -293,11 +295,11 @@ public class ResultActivity extends AppCompatActivity {
         }
         dst.put(0, 0, dstData);
 
-        Bitmap resultBmp = Bitmap.createBitmap(imageBmp.getWidth(), imageBmp.getHeight(), Bitmap.Config.ARGB_8888);
+        resultBmp = Bitmap.createBitmap(imageBmp.getWidth(), imageBmp.getHeight(), Bitmap.Config.RGB_565);
         Utils.matToBitmap(dst, resultBmp);
-
-
         Glide.with(ResultActivity.this).asBitmap().load(resultBmp).into(ivAfter);
+
+
     }
 
 

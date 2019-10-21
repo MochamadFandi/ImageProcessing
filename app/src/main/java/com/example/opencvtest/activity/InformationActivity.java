@@ -40,6 +40,10 @@ public class InformationActivity extends AppCompatActivity {
         vpInfo.setAdapter(adapter);
         tlInfo.setupWithViewPager(vpInfo);
 
+        TabLayout.Tab tab = tlInfo.getTabAt(getIntent().getIntExtra("TAB ID",0));
+        assert tab != null;
+        tab.select();
+
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

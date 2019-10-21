@@ -40,9 +40,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         initView();
         imageSlider = new ArrayList<>();
-        imageSlider.add(new Slide(R.drawable.kurma_ajwa, "Kurma Ajwa"));
-        imageSlider.add(new Slide(R.drawable.kurma_sukari, "Kurma Sukari"));
-        imageSlider.add(new Slide(R.drawable.kurma_nour, "Kurma Deglet Nour"));
+        imageSlider.add(new Slide(R.drawable.kurma_ajwa2, "Kurma Ajwa",0));
+        imageSlider.add(new Slide(R.drawable.kurma_sukari3, "Kurma Sukari",1));
+        imageSlider.add(new Slide(R.drawable.kurma_nour, "Kurma Deglet Nour",2));
 
         SliderPagerAdapter adapter = new SliderPagerAdapter(this, imageSlider);
         sliderPager.setAdapter(adapter);

@@ -29,7 +29,7 @@ public class SliderPagerAdapter extends PagerAdapter {
 
     @NonNull
     @Override
-    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+    public Object instantiateItem(@NonNull ViewGroup container, final int position) {
         View slideLayout = LayoutInflater.from(context).inflate(R.layout.slider_item, container, false);
         ImageView slideImage = slideLayout.findViewById(R.id.iv_date);
         TextView slideText = slideLayout.findViewById(R.id.tv_date);
@@ -40,6 +40,7 @@ public class SliderPagerAdapter extends PagerAdapter {
             @Override
             public void onClick(View view) {
                 Intent move = new Intent(context, InformationActivity.class);
+                move.putExtra("TAB ID", mList.get(position).getTab());
                 context.startActivity(move);
             }
         });
