@@ -2,7 +2,6 @@ package com.example.opencvtest.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -29,7 +28,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private CardView cvInformation;
     private CardView cvHelp;
     private CardView cvAbout;
-    private boolean doubleBackToExitPressedOnce = false;
+    private static final int TIME_DELAY = 2000;
+    private static long back_pressed;
 
 
 
@@ -39,6 +39,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+        Slider();
+
+        cvAbout.setOnClickListener(this);
+        cvHelp.setOnClickListener(this);
+        cvInformation.setOnClickListener(this);
+        cvIdentification.setOnClickListener(this);
+    }
+
+    private void Slider() {
         imageSlider = new ArrayList<>();
         imageSlider.add(new Slide(R.drawable.kurma_ajwa2, "Kurma Ajwa",0));
         imageSlider.add(new Slide(R.drawable.kurma_sukari3, "Kurma Sukari",1));
@@ -51,12 +60,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new SliderTimer(), 4000, 6000);
-
-
-        cvAbout.setOnClickListener(this);
-        cvHelp.setOnClickListener(this);
-        cvInformation.setOnClickListener(this);
-        cvIdentification.setOnClickListener(this);
     }
 
     private void initView() {
@@ -72,22 +75,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cv_about:
-                Intent move = new Intent(MainActivity.this, AboutActivity.class);
-                startActivity(move);
+                Intent moveAbout = new Intent(MainActivity.this, AboutActivity.class);
+                startActivity(moveAbout);
                 break;
             case R.id.cv_help:
-                Intent move1 = new Intent(MainActivity.this, HelpActivity.class);
-                startActivity(move1);
+                Intent moveHelp = new Intent(MainActivity.this, HelpActivity.class);
+                startActivity(moveHelp);
                 break;
 
             case R.id.cv_information:
-                Intent move2 = new Intent(MainActivity.this, InformationActivity.class);
-                startActivity(move2);
+                Intent moveInfo = new Intent(MainActivity.this, InformationActivity.class);
+                startActivity(moveInfo);
                 break;
 
             case R.id.cv_identification:
-                Intent move3 = new Intent(MainActivity.this, IdentificationActivity.class);
-                startActivity(move3);
+                Intent moveIdent = new Intent(MainActivity.this, IdentificationActivity.class);
+                startActivity(moveIdent);
                 break;
         }
     }
@@ -112,21 +115,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
+        if (back_pressed + TIME_DELAY > System.currentTimeMillis()) {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
 
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please Click Back Again to Exit", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Press once again to exit", Toast.LENGTH_SHORT).show();
+        } back_pressed = System.currentTimeMillis();
 
-        new Handler().postDelayed(new Runnable() {
 
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
-            }
-        }, 2000);
     }
 
 

@@ -18,8 +18,7 @@
         <activity android:name=".activity.PreviewActivity" />
         <activity android:name=".activity.IdentificationActivity" />
         <activity
-            android:name=".activity.InformationActivity"
-            android:screenOrientation="portrait" />
+            android:name=".activity.InformationActivity"/>
         <activity android:name=".activity.AboutActivity" />
         <activity android:name=".activity.HelpActivity" />
         <activity android:name=".activity.MainActivity">

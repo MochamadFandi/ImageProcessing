@@ -10,13 +10,12 @@ import com.example.opencvtest.R;
 
 public class AboutActivity extends AppCompatActivity {
 
-    private ImageView ivBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-        initView();
+        ImageView ivBack = findViewById(R.id.iv_back);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -26,7 +25,5 @@ public class AboutActivity extends AppCompatActivity {
         });
     }
 
-    private void initView() {
-        ivBack = findViewById(R.id.iv_back);
-    }
+
 }

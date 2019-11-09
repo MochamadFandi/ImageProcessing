@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">OpenCVTest</string>
+    <string name="app_name">Date Detection</string>
     <string name="identification">Identification</string>
     <string name="help">Help</string>
     <string name="information">Information</string>
