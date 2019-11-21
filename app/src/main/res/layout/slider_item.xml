@@ -21,8 +21,7 @@
         android:padding="12dp"
         android:fontFamily="@font/montserrat"
         android:text="@string/ajwa"
-        android:textColor="@color/text"
-        android:textStyle="bold"
+        android:textColor="@color/text2"
         android:textSize="16sp"/>
 
 

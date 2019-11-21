@@ -131,7 +131,7 @@ public class IdentificationActivity extends AppCompatActivity {
             String imagePath = cursor.getString(columnIndex);
             cursor.close();
             Intent camera = new Intent(IdentificationActivity.this, PreviewActivity.class);
-            camera.putExtra("IMAGE_DATA", imagePath);
+            camera.putExtra("SRC_PATH", imagePath);
             startActivity(camera);
         } else if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK) {
 
@@ -146,7 +146,7 @@ public class IdentificationActivity extends AppCompatActivity {
             String imagePath = cursor.getString(columnIndex);
             cursor.close();
             Intent gallery = new Intent(IdentificationActivity.this, PreviewActivity.class);
-            gallery.putExtra("IMAGE_DATA", imagePath);
+            gallery.putExtra("SRC_PATH", imagePath);
             startActivity(gallery);
 
         }

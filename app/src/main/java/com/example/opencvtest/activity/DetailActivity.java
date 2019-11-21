@@ -37,6 +37,9 @@ public class DetailActivity extends AppCompatActivity {
         byte[] grayArray = getIntent().getByteArrayExtra("GRAY_DATA");
         Bitmap grayBmp = BitmapFactory.decodeByteArray(grayArray, 0, grayArray.length);
 
+        byte[] histArray = getIntent().getByteArrayExtra("HIST_DATA");
+        Bitmap histBmp = BitmapFactory.decodeByteArray(histArray, 0, histArray.length);
+
         byte[] thresholdArray = getIntent().getByteArrayExtra("THRESHOLD_DATA");
         Bitmap thresholdBmp = BitmapFactory.decodeByteArray(thresholdArray, 0, thresholdArray.length);
 
@@ -49,10 +52,10 @@ public class DetailActivity extends AppCompatActivity {
 
         detail.add(new DetailItem("Original Image", originalBmp));
         detail.add(new DetailItem("Grayscale", grayBmp));
+        detail.add(new DetailItem("Grayscale Histogram", histBmp));
         detail.add(new DetailItem("Threshold Otsu & Binary Inv", thresholdBmp));
         detail.add(new DetailItem("Morphology Closing", closingBmp));
         detail.add(new DetailItem("Segmentation", resultBmp));
-        detail.add(new DetailItem("GLCM", resultBmp));
 
         DetailItemAdapter detailItemAdapter = new DetailItemAdapter(this, detail);
         rvDetail.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

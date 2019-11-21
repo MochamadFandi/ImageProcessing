@@ -22,7 +22,7 @@ public class PreviewActivity extends AppCompatActivity {
         ImageView ivBack = findViewById(R.id.iv_back);
         Button btnProcess = findViewById(R.id.btn_process);
 
-        final String imagePath = getIntent().getStringExtra("IMAGE_DATA");
+        final String imagePath = getIntent().getStringExtra("SRC_PATH");
         Bitmap imageBmp = BitmapFactory.decodeFile(imagePath);
         Glide.with(PreviewActivity.this).asBitmap().load(imageBmp).into(ivPreview);
 

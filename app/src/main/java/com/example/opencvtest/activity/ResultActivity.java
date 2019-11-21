@@ -18,6 +18,7 @@ import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
+import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfFloat;
@@ -27,23 +28,20 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 import java.io.ByteArrayOutputStream;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class ResultActivity extends AppCompatActivity {
     protected static final String TAG = null;
-    private Bitmap imageBmp, grayBmp, thresBmp, closingBmp, resultBmp;
-    private Mat result;
-    private String imagePath;
-
 
     static {
         OpenCVLoader.initDebug();
     }
 
+    private Bitmap imageBmp, grayBmp, histBmp, thresBmp, closingBmp, resultBmp, outputBmp;
+    private Mat gray, finalResult;
+    private String imagePath;
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
@@ -66,12 +64,12 @@ public class ResultActivity extends AppCompatActivity {
     private TextView tvHomogeneity;
     private Button btnDetail;
 
+
     @Override
     public void onResume() {
         super.onResume();
         OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_6, this, mLoaderCallback);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +80,7 @@ public class ResultActivity extends AppCompatActivity {
         imagePath = getIntent().getStringExtra("SRC_PATH");
         decodeFilePath();
         Glide.with(ResultActivity.this).asBitmap().load(imageBmp).into(ivBefore);
-        Process();
+        Segmentation();
         Classification();
 
 
@@ -113,6 +111,10 @@ public class ResultActivity extends AppCompatActivity {
                 grayBmp.compress(Bitmap.CompressFormat.PNG, 100, grayStream);
                 byte[] grayArray = grayStream.toByteArray();
 
+                ByteArrayOutputStream histStream = new ByteArrayOutputStream();
+                histBmp.compress(Bitmap.CompressFormat.PNG, 100, histStream);
+                byte[] histArray = histStream.toByteArray();
+
                 ByteArrayOutputStream thresholdStream = new ByteArrayOutputStream();
                 thresBmp.compress(Bitmap.CompressFormat.PNG, 100, thresholdStream);
                 byte[] thresholdArray = thresholdStream.toByteArray();
@@ -122,13 +124,14 @@ public class ResultActivity extends AppCompatActivity {
                 byte[] closingArray = closingStream.toByteArray();
 
                 ByteArrayOutputStream resultStream = new ByteArrayOutputStream();
-                resultBmp.compress(Bitmap.CompressFormat.PNG, 100, resultStream);
+                outputBmp.compress(Bitmap.CompressFormat.PNG, 100, resultStream);
                 byte[] resultArray = resultStream.toByteArray();
 
                 Intent move = new Intent(ResultActivity.this, DetailActivity.class);
                 move.putExtra("SRC_PATH", imagePath);
                 move.putExtra("ORIGINAL_DATA", originalArray);
                 move.putExtra("GRAY_DATA", grayArray);
+                move.putExtra("HIST_DATA", histArray);
                 move.putExtra("THRESHOLD_DATA", thresholdArray);
                 move.putExtra("MORPHOLOGY_DATA", closingArray);
                 move.putExtra("RESULT_DATA", resultArray);
@@ -153,7 +156,6 @@ public class ResultActivity extends AppCompatActivity {
         btnDetail = findViewById(R.id.btn_detail);
     }
 
-
     private void decodeFilePath() {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
@@ -169,15 +171,16 @@ public class ResultActivity extends AppCompatActivity {
 
     }
 
-
-    private void Process() {
-        Mat gray = new Mat();
-        Mat srcMat = new Mat();
+    private void Segmentation() {
+        Mat srcMat = new Mat(512, 384, CvType.CV_8UC3);
+        gray = new Mat();
 
         Utils.bitmapToMat(imageBmp, srcMat);
         Imgproc.cvtColor(srcMat, gray, Imgproc.COLOR_RGBA2GRAY);
         grayBmp = Bitmap.createBitmap(imageBmp.getWidth(), imageBmp.getHeight(), Bitmap.Config.RGB_565);
         Utils.matToBitmap(gray, grayBmp);
+
+        grayscaleHistogram();
 
         Mat threshold = new Mat();
         Imgproc.threshold(gray, threshold, 0, 255, Imgproc.THRESH_BINARY_INV + Imgproc.THRESH_OTSU);
@@ -190,64 +193,106 @@ public class ResultActivity extends AppCompatActivity {
         closingBmp = Bitmap.createBitmap(imageBmp.getWidth(), imageBmp.getHeight(), Bitmap.Config.RGB_565);
         Utils.matToBitmap(closing, closingBmp);
 
-        result = new Mat(srcMat.size(), CvType.CV_8UC3, new Scalar(255, 255, 255));
-        gray.copyTo(result, closing);
+        Mat result = new Mat();
+        Core.subtract(closing, gray, result);
+        Core.subtract(closing, result, result);
 
         resultBmp = Bitmap.createBitmap(imageBmp.getWidth(), imageBmp.getHeight(), Bitmap.Config.RGB_565);
         Utils.matToBitmap(result, resultBmp);
 
-        Glide.with(ResultActivity.this).asBitmap().load(resultBmp).into(ivAfter);
+        makeBlackTransparent();
+
+        Glide.with(ResultActivity.this).asBitmap().load(outputBmp).into(ivAfter);
+    }
+
+    private void grayscaleHistogram() {
+
+        List<Mat> srcList = new ArrayList<>();
+        srcList.add(gray);
+        MatOfInt channels = new MatOfInt(0);
+        Mat grayHist = new Mat();
+        int histSize = 256;
+        MatOfFloat histRange = new MatOfFloat(0, 256);
+
+        Imgproc.calcHist(srcList, channels, new Mat(), grayHist, new MatOfInt(histSize), histRange);
+        int histW = 512, histH = 400;
+        int binW = (int) Math.round((double) histW / histSize);
+        Mat histImage = new Mat(histH, histW, CvType.CV_8UC3, new Scalar(0, 0, 0));
+
+        Core.normalize(grayHist, grayHist, 0, histImage.rows(), Core.NORM_MINMAX);
+        float[] bHistData = new float[(int) (grayHist.total() * grayHist.channels())];
+        grayHist.get(0, 0, bHistData);
+
+        for (int i = 1; i < histSize; i++) {
+            Imgproc.line(histImage, new Point(binW * (i - 1), histH - Math.round(bHistData[i - 1])),
+                    new Point(binW * (i), histH - Math.round(bHistData[i])), new Scalar(255, 0, 0), 2);
+        }
+        histBmp = Bitmap.createBitmap(histImage.cols(), histImage.rows(), Bitmap.Config.ARGB_8888);
+        Utils.matToBitmap(histImage, histBmp);
+    }
+
+    private void makeBlackTransparent() {
+        // convert image to matrix
+        Mat src = new Mat(imageBmp.getWidth(), imageBmp.getHeight(), CvType.CV_8UC4);
+        Utils.bitmapToMat(resultBmp, src);
+
+        // init new matrices
+        finalResult = new Mat(imageBmp.getWidth(), imageBmp.getHeight(), CvType.CV_8UC4);
+        Mat tmp = new Mat(imageBmp.getWidth(), imageBmp.getHeight(), CvType.CV_8UC4);
+        Mat alpha = new Mat(imageBmp.getWidth(), imageBmp.getHeight(), CvType.CV_8UC4);
+
+        // convert image to grayscale
+        Imgproc.cvtColor(src, tmp, Imgproc.COLOR_BGR2GRAY);
+
+        // threshold the image to create alpha channel with complete transparency in black background region and zero transparency in foreground object region.
+        Imgproc.threshold(tmp, alpha, 0, 255, Imgproc.THRESH_BINARY);
+
+        // split the original image into three single channel.
+        List<Mat> rgb = new ArrayList<>(3);
+        Core.split(src, rgb);
+
+        // Create the final result by merging three single channel and alpha(BGRA order)
+        List<Mat> rgba = new ArrayList<>(4);
+        rgba.add(rgb.get(0));
+        rgba.add(rgb.get(1));
+        rgba.add(rgb.get(2));
+        rgba.add(alpha);
+        Core.merge(rgba, finalResult);
+
+        // convert matrix to output bitmap
+        outputBmp = Bitmap.createBitmap(imageBmp.getWidth(), imageBmp.getHeight(), Bitmap.Config.ARGB_8888);
+        Utils.matToBitmap(finalResult, outputBmp);
     }
 
     private void Classification() {
 
-        List<Mat> srcList = new ArrayList<>();
-        srcList.add(result);
-        MatOfInt channels = new MatOfInt(0);
-        Mat grayHist = new Mat();
-        MatOfInt histSize = new MatOfInt(256);
-        MatOfFloat histRange = new MatOfFloat(0, 256);
+        Mat gl = Mat.zeros(256, 256, CvType.CV_64F);
+        Mat glt = gl.clone();
 
-        Imgproc.calcHist(srcList, channels, new Mat(), grayHist, histSize, histRange);
+        for (int y = 0; y < finalResult.rows(); y++) {
+            for (int x = 0; x < finalResult.cols()-1; x++) {
 
-        double S = 0;
-        final double[] pixel = new double[256];
-        for (int i = 0; i < 256; i++) {
-            double[] histValues = grayHist.get(i, 0);
-            for (double histValue : histValues) {
-                pixel[i] = histValue;
-                S += histValue;
+                int i = (int) finalResult.get(y, x)[0];
+                int j = (int) finalResult.get(y, x + 1)[0];
+
+                double[] count = gl.get(i, j);
+                count[0]++;
+                gl.put(i, j, count);
             }
         }
 
-        DecimalFormat df = new DecimalFormat("#,#####");
-        df.setRoundingMode(RoundingMode.HALF_UP);
+        //GLCM Transpose
+        Core.transpose(gl, glt);
 
-        DecimalFormat bf = new DecimalFormat("#,##");
-        bf.setRoundingMode(RoundingMode.HALF_UP);
+        //Symmetric Matrix
+        Core.add(gl, glt, gl);
 
-        double pb;
-        Double enTemp;
-        double hitungentropy = 0;
-
-        for (int i = 0; i < 256; i++) {
-            pb = pixel[i] / S;
-            pb = Double.parseDouble(df.format(pb));
-
-            enTemp = pb * (Math.log(pb) / Math.log(2));
-            if (enTemp.isNaN()) {
-                enTemp = (double) 0;
-            }
-            enTemp = Double.parseDouble(df.format(enTemp));
-
-            hitungentropy += -(enTemp);
-            hitungentropy = Double.parseDouble(df.format(hitungentropy));
-            tvEntropy.setText(bf.format(hitungentropy));
-        }
+        //Matrix Normalization
+        Scalar sum = Core.sumElems(gl);
+        Core.divide(gl, sum, gl);
 
 
     }
-
 
 
 }
