@@ -28,6 +28,8 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 import java.io.ByteArrayOutputStream;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +44,7 @@ public class ResultActivity extends AppCompatActivity {
     private Bitmap imageBmp, grayBmp, histBmp, thresBmp, closingBmp, resultBmp, outputBmp;
     private Mat gray, finalResult;
     private String imagePath;
+    double meanx, meany, stdevx,stdevy ;
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
@@ -123,6 +126,10 @@ public class ResultActivity extends AppCompatActivity {
                 closingBmp.compress(Bitmap.CompressFormat.PNG, 100, closingStream);
                 byte[] closingArray = closingStream.toByteArray();
 
+                ByteArrayOutputStream segmentStream = new ByteArrayOutputStream();
+                resultBmp.compress(Bitmap.CompressFormat.PNG, 100, segmentStream);
+                byte[] segmentArray = segmentStream.toByteArray();
+
                 ByteArrayOutputStream resultStream = new ByteArrayOutputStream();
                 outputBmp.compress(Bitmap.CompressFormat.PNG, 100, resultStream);
                 byte[] resultArray = resultStream.toByteArray();
@@ -134,6 +141,7 @@ public class ResultActivity extends AppCompatActivity {
                 move.putExtra("HIST_DATA", histArray);
                 move.putExtra("THRESHOLD_DATA", thresholdArray);
                 move.putExtra("MORPHOLOGY_DATA", closingArray);
+                move.putExtra("SEGMENT_DATA", segmentArray);
                 move.putExtra("RESULT_DATA", resultArray);
                 startActivity(move);
             }
@@ -187,15 +195,16 @@ public class ResultActivity extends AppCompatActivity {
         thresBmp = Bitmap.createBitmap(imageBmp.getWidth(), imageBmp.getHeight(), Bitmap.Config.RGB_565);
         Utils.matToBitmap(threshold, thresBmp);
 
+
+
         Mat closing = new Mat();
         Mat kernel = Mat.ones(5, 5, CvType.CV_8U);
         Imgproc.morphologyEx(threshold, closing, Imgproc.MORPH_CLOSE, kernel, new Point(-1, -1), 3);
         closingBmp = Bitmap.createBitmap(imageBmp.getWidth(), imageBmp.getHeight(), Bitmap.Config.RGB_565);
         Utils.matToBitmap(closing, closingBmp);
 
-        Mat result = new Mat();
-        Core.subtract(closing, gray, result);
-        Core.subtract(closing, result, result);
+        Mat result = new Mat(srcMat.size(), CvType.CV_8UC3, new Scalar(255, 255, 255));
+        gray.copyTo(result, closing);
 
         resultBmp = Bitmap.createBitmap(imageBmp.getWidth(), imageBmp.getHeight(), Bitmap.Config.RGB_565);
         Utils.matToBitmap(result, resultBmp);
@@ -220,12 +229,12 @@ public class ResultActivity extends AppCompatActivity {
         Mat histImage = new Mat(histH, histW, CvType.CV_8UC3, new Scalar(0, 0, 0));
 
         Core.normalize(grayHist, grayHist, 0, histImage.rows(), Core.NORM_MINMAX);
-        float[] bHistData = new float[(int) (grayHist.total() * grayHist.channels())];
-        grayHist.get(0, 0, bHistData);
+        float[] grayHistData = new float[(int) (grayHist.total() * grayHist.channels())];
+        grayHist.get(0, 0, grayHistData);
 
         for (int i = 1; i < histSize; i++) {
-            Imgproc.line(histImage, new Point(binW * (i - 1), histH - Math.round(bHistData[i - 1])),
-                    new Point(binW * (i), histH - Math.round(bHistData[i])), new Scalar(255, 0, 0), 2);
+            Imgproc.line(histImage, new Point(binW * (i - 1), histH - Math.round(grayHistData[i - 1])),
+                    new Point(binW * (i), histH - Math.round(grayHistData[i])), new Scalar(220, 220, 220), 2);
         }
         histBmp = Bitmap.createBitmap(histImage.cols(), histImage.rows(), Bitmap.Config.ARGB_8888);
         Utils.matToBitmap(histImage, histBmp);
@@ -246,6 +255,8 @@ public class ResultActivity extends AppCompatActivity {
 
         // threshold the image to create alpha channel with complete transparency in black background region and zero transparency in foreground object region.
         Imgproc.threshold(tmp, alpha, 0, 255, Imgproc.THRESH_BINARY);
+        Mat kernel = Mat.ones(3, 3, CvType.CV_8U);
+        Imgproc.morphologyEx(alpha, alpha, Imgproc.MORPH_CLOSE, kernel, new Point(-1, -1), 3);
 
         // split the original image into three single channel.
         List<Mat> rgb = new ArrayList<>(3);
@@ -266,9 +277,12 @@ public class ResultActivity extends AppCompatActivity {
 
     private void Classification() {
 
+
+
         Mat gl = Mat.zeros(256, 256, CvType.CV_64F);
         Mat glt = gl.clone();
 
+        //Create GLCM d= 1 , angle = 0
         for (int y = 0; y < finalResult.rows(); y++) {
             for (int x = 0; x < finalResult.cols()-1; x++) {
 
@@ -292,7 +306,111 @@ public class ResultActivity extends AppCompatActivity {
         Core.divide(gl, sum, gl);
 
 
+        double [] px = new double [256];
+        double [] py = new double [256];
+        double [][] glcm;
+        meanx = 0.0;
+        meany = 0.0;
+        stdevx = 0.0;
+        stdevy = 0.0;
+
+        for (int i=0;  i<256; i++){
+            px[i] = 0.0;
+            py[i] = 0.0;
+        }
+
+        // sum the glcm rows to Px(i)
+        for (int i=0;  i<256; i++) {
+            for (int j=0; j<256; j++) {
+                px[i] += gl.get(i,j)[0] ;
+            }
+        }
+
+        // sum the glcm rows to Py(j)
+        for (int j=0;  j<256; j++) {
+            for (int i=0; i<256; i++) {
+                py[j] += gl.get(i,j)[0];
+            }
+        }
+
+        // calculate meanx and meany
+        for (int i=0;  i<256; i++) {
+            meanx += (i*px[i]);
+            meany += (i*py[i]);
+        }
+
+        // calculate stdevx and stdevy
+        for (int i=0;  i<256; i++) {
+            stdevx += ((Math.pow((i-meanx),2))*px[i]);
+            stdevy += ((Math.pow((i-meany),2))*py[i]);
+        }
+
+        double energy = 0.0;
+        for (int i=0;  i<256; i++)  {
+            for (int j=0; j<256; j++) {
+                energy += Math.pow(gl.get(i,j)[0],2);
+            }
+        }
+
+        double contrast=0.0;
+        for (int i=0;  i<256; i++)  {
+            for (int j=0; j<256; j++) {
+                //contrast += Math.pow(Math.abs(i-j),2)*(glcm[i][j]);
+                contrast += Math.pow(i-j,2)*(gl.get(i,j)[0]); // 20110530
+            }
+        }
+
+        double correlation=0.0;
+        // calculate the correlation parameter
+        for (int i=0;  i<256; i++) {
+            for (int j=0; j<256; j++) {
+                //Walker, et al. 1995 (matches Xite)
+                //correlation += ((((i-meanx)*(j-meany))/Math.sqrt(stdevx*stdevy))*glcm[i][j]);
+                //Haralick, et al. 1973 (continued below outside loop; matches original GLCM_Texture)
+                //correlation += (i*j)*glcm[i][j];
+                //matlab's rephrasing of Haralick 1973; produces the same result as Haralick 1973
+                correlation += ((((i-meanx)*(j-meany))/( stdevx*stdevy))*gl.get(i,j)[0]);
+            }
+        }
+
+        double entropy = 0.0;
+        for (int i=0;  i<256; i++)  {
+            for (int j=0; j<256; j++) {
+                if (gl.get(i,j)[0] != 0) {
+                    entropy = entropy-(gl.get(i,j)[0]*(Math.log(gl.get(i,j)[0])));
+                    //the next line is how Xite calculates it -- I am not sure why they use this, I do not think it is correct
+                    //(they also use log base 10, which I need to implement)
+                    //entropy = entropy-(glcm[i][j]*((Math.log(glcm[i][j]))/Math.log(2.0)) );
+                }
+            }
+        }
+
+        double homogeneity = 0.0;
+        for (int i=0;  i<256; i++) {
+            for (int j=0; j<256; j++) {
+                homogeneity += gl.get(i,j)[0]/(1.0+Math.abs(i-j));
+            }
+        }
+
+
+
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.HALF_UP);
+
+        tvEnergy.setText(df.format(energy));
+        tvContrast.setText(df.format(contrast));
+        tvCorrelation.setText(df.format(correlation));
+        tvEntropy.setText(df.format(entropy));
+        tvHomogeneity.setText(df.format(homogeneity));
+
+
+
+
     }
+
+
+
+
 
 
 }

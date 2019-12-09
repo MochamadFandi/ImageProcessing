@@ -46,6 +46,9 @@ public class DetailActivity extends AppCompatActivity {
         byte[] morphologyArray = getIntent().getByteArrayExtra("MORPHOLOGY_DATA");
         Bitmap closingBmp = BitmapFactory.decodeByteArray(morphologyArray, 0, morphologyArray.length);
 
+        byte[] segmentArray = getIntent().getByteArrayExtra("SEGMENT_DATA");
+        Bitmap segmentBmp = BitmapFactory.decodeByteArray(segmentArray, 0, segmentArray.length);
+
         byte[] resultArray = getIntent().getByteArrayExtra("RESULT_DATA");
         Bitmap resultBmp = BitmapFactory.decodeByteArray(resultArray, 0, resultArray.length);
 
@@ -55,6 +58,7 @@ public class DetailActivity extends AppCompatActivity {
         detail.add(new DetailItem("Grayscale Histogram", histBmp));
         detail.add(new DetailItem("Threshold Otsu & Binary Inv", thresholdBmp));
         detail.add(new DetailItem("Morphology Closing", closingBmp));
+        detail.add(new DetailItem("Segment", segmentBmp));
         detail.add(new DetailItem("Segmentation", resultBmp));
 
         DetailItemAdapter detailItemAdapter = new DetailItemAdapter(this, detail);
