@@ -39,33 +39,57 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_back" />
 
-        <ImageView
-            android:id="@+id/iv_preview"
-            android:layout_width="250dp"
-            android:layout_height="333dp"
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_image"
+            android:layout_width="247dp"
+            android:layout_height="330dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="32dp"
-            android:contentDescription="@string/preview_image"
-            android:src="@drawable/ic_camera_white_150dp"
+            android:layout_marginEnd="8dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="6dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_preview" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_preview">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/iv_preview"
+                    android:layout_width="250dp"
+                    android:layout_height="333dp"
+                    android:contentDescription="@string/preview_image"
+                    android:src="@drawable/ic_camera_white_150dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.v7.widget.CardView>
+
 
         <Button
             android:id="@+id/btn_process"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:layout_marginBottom="32dp"
             android:background="@drawable/bg_button"
             android:text="@string/process"
             android:textAllCaps="false"
             android:textColor="@color/text"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_preview"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@+id/cv_image"
+            tools:layout_editor_absoluteY="402dp" />
+
+
 
 
     </android.support.constraint.ConstraintLayout>

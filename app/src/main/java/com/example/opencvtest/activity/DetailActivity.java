@@ -1,5 +1,6 @@
 package com.example.opencvtest.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,10 +17,12 @@ import com.example.opencvtest.data.DetailItem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class DetailActivity extends AppCompatActivity {
 
     private List<DetailItem> detail = new ArrayList<>();
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +32,8 @@ public class DetailActivity extends AppCompatActivity {
         ImageView ivBack = findViewById(R.id.iv_back);
 
 
-        final String srcPath = getIntent().getStringExtra("SRC_PATH");
 
-        byte[] originalArray = getIntent().getByteArrayExtra("ORIGINAL_DATA");
+        final byte[] originalArray = getIntent().getByteArrayExtra("ORIGINAL_DATA");
         Bitmap originalBmp = BitmapFactory.decodeByteArray(originalArray, 0, originalArray.length);
 
         byte[] grayArray = getIntent().getByteArrayExtra("GRAY_DATA");
@@ -46,20 +48,17 @@ public class DetailActivity extends AppCompatActivity {
         byte[] morphologyArray = getIntent().getByteArrayExtra("MORPHOLOGY_DATA");
         Bitmap closingBmp = BitmapFactory.decodeByteArray(morphologyArray, 0, morphologyArray.length);
 
-        byte[] segmentArray = getIntent().getByteArrayExtra("SEGMENT_DATA");
-        Bitmap segmentBmp = BitmapFactory.decodeByteArray(segmentArray, 0, segmentArray.length);
-
         byte[] resultArray = getIntent().getByteArrayExtra("RESULT_DATA");
         Bitmap resultBmp = BitmapFactory.decodeByteArray(resultArray, 0, resultArray.length);
 
 
         detail.add(new DetailItem("Original Image", originalBmp));
         detail.add(new DetailItem("Grayscale", grayBmp));
-        detail.add(new DetailItem("Grayscale Histogram", histBmp));
         detail.add(new DetailItem("Threshold Otsu & Binary Inv", thresholdBmp));
         detail.add(new DetailItem("Morphology Closing", closingBmp));
-        detail.add(new DetailItem("Segment", segmentBmp));
         detail.add(new DetailItem("Segmentation", resultBmp));
+        detail.add(new DetailItem("Histogram of Segmented Image", histBmp));
+
 
         DetailItemAdapter detailItemAdapter = new DetailItemAdapter(this, detail);
         rvDetail.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -68,8 +67,13 @@ public class DetailActivity extends AppCompatActivity {
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressDialog = new ProgressDialog(DetailActivity.this);
+                progressDialog.show();
+                progressDialog.setContentView(R.layout.progress_dialog);
+                Objects.requireNonNull(progressDialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
+
                 Intent move = new Intent(DetailActivity.this, ResultActivity.class);
-                move.putExtra("SRC_PATH", srcPath);
+                move.putExtra("SRC_PATH", originalArray);
                 startActivity(move);
             }
         });

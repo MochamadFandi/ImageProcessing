@@ -27,13 +27,14 @@
             android:text="@string/information"
             android:fontFamily="@font/montserrat"
             android:textColor="@color/endBackground2"
-            android:textSize="16sp"/>
+            android:textSize="20sp"/>
 
 
 
     </android.support.v7.widget.Toolbar>
 
     <android.support.design.widget.TabLayout
+        style="@style/MyTabLayout"
         android:id="@+id/tl_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,8 +44,7 @@
         app:tabIndicatorColor="@color/endBackground2"
         app:tabSelectedTextColor="@color/endBackground2"
         app:tabTextColor="@color/midBackground2"
-        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-        >
+        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget">
 
     </android.support.design.widget.TabLayout>
 

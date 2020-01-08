@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.opencvtest.R;
 
 
+
 public class IdentificationActivity extends AppCompatActivity {
 
     private static final int CAMERA_REQUEST = 1007;
@@ -152,4 +153,7 @@ public class IdentificationActivity extends AppCompatActivity {
         }
 
     }
+
+
+
 }

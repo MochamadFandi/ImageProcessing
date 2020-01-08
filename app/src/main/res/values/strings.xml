@@ -7,18 +7,18 @@
     <string name="date_detection">Date Detection</string>
     <string name="application_identification_of_dates">Application identification of dates</string>
     <string name="image_date">image date</string>
-    <string name="about_desc">Aplikasi ini digunakan untuk mengidentifikasi 3 jenis buah kurma yaitu Kurma Ajwa, Kurma Sukari, dan Kurma Deglet Nour. Aplikasi Deteksi Kurma ini dibuat oleh Mochamad Fandi yang digunakan sebagai Tugas Akhir.</string>
+    <string name="about_desc">Aplikasi ini digunakan untuk mengidentifikasi 3 jenis buah kurma yaitu Kurma Ajwa, Kurma Sukari, dan Kurma Deglet Nour. Aplikasi Deteksi Kurma ini dikembangkan oleh Mochamad Fandi yang digunakan untuk menyelesaikan studinya sebagai mahasiswa S1 Teknik Komputer Universitas Diponegoro.</string>
     <string name="back">back</string>
     <string name="help_desc">
         <b>Petunjuk Penggunaan Aplikasi Deteksi Kurma :</b>\n\n
         <ul>
-            <li>Pada halaman utama, tekan tombol Identification.</li>\n
-            <li>Selanjutnya tekan tombol pilih gambar dan pilih mengambil gambar dari kamera atau dari gallery smartphone</li>\n
-            <li>Setelah gambar sesuai dengan yang diinginkan muncul, selanjutnya tekan tombol proses.</li>\n
-            <li>Hasilnya akan menampilkan citra asli, citra hasil pengolahan, dan hasil identifikasi jenis kurma.</li>\n
-            <li>Untuk melihat detail proses tekan tombol detail proses.</li>\n
-            <li>Jika ingin mendeteksi kurma lagi tekan tombol deteksi lagi.</li>\n
-            <li>Untuk kembali ke halaman utama tekan tombol home.</li>\n
+            <li>Pada halaman utama, untuk melakukan identifikasi tekan tombol Identification.</li>\n\n
+            <li>Selanjutnya masuk ke halaman pilih citra, tekan tombol Camera untuk mengambil citra dari kamera atau  tekan tombol Gallery untuk memilih citra dari galeri smartphone</li>\n\n
+            <li>Kemudian masuk ke halaman pratinjau citra, tekan tombol Procces untuk melakukan proses identifikasi.</li>\n\n
+            <li>Selanjutnya masuk ke halaman hasil identifikasi, hasilnya akan menampilkan citra asli, citra hasil pengolahan, dan hasil identifikasi jenis kurma.</li>\n\n
+            <li>Pada halaman hasil identifikasi, untuk melihat detail proses dengan menekan tombol detail proses.</li>\n\n
+            <li>Pada halaman hasil identifikasi, untuk mendeteksi kurma lagi dengan menekan tombol kembali.</li>\n\n
+            <li>Untuk kembali ke halaman utama tekan tombol home.</li>\n\n
         </ul>
 
 
@@ -38,15 +38,13 @@
         Nabi Muhammad SAW bersabda: Barangsiapa mengkonsumsi tujuh butir kurma ajwa pada pagi hari
         itu ia tidak akan terkena racun maupun sihir. Oleh karena itu, kurma ajwa menjadi makanan
         favorit Nabi. Sehingga kurma ini dikenal juga sebagai kurma Nabi. Kurma ini banyak tumbuh di
-        daerah sekitar Kota Madina
-
-    </string>
+        daerah sekitar Kota Madinah  </string>
     <string name="overview">Overview</string>
     <string name="ajwa_cha">
         <ul>
             <li>Memiliki warna hitam pekat.</li>\n
             <li>Memiliki ukuran bentuk relatif kecil.</li>\n
-            <li>Memiliki tekstur berupa guratan di permukaan kulit kurma.</li>\n
+            <li>Memiliki tekstur yang unik berupa guratan di permukaan kulit kurma.</li>\n
             <li>Memiliki rasa yang tidak terlalu manis.</li>
         </ul>
     </string>
@@ -56,12 +54,13 @@
         digemari karena rasanya sangat manis. Sukari berasal dari kata dalam bahasa arab yang berarti
         gula. Kurma ini termasuk kurma termahal setelah kurma ajwa, ada banyak faktor yang mempengaruhi
         harga kurma sukari yaitu dilihat dari bentuk, ukuran, dan rasa. Kurma jenis ini dibudidayakan di
-        Provinsi Al-Qaseem di Saudi Arabia.
+        Provinsi Al-Qaseem di Saudi Arabia
     </string>
     <string name="sukari_cha">
         <ul>
             <li>Memiliki warna coklat muda seperti karamel</li>\n
             <li>Pada bagian ujung kurma berwarna kuning ranum</li>\n
+            <li>Memiliki tekstur renyah pada permukaan kulit kurma</li>\n
             <li>Memiliku ukuran relatif besar</li>\n
             <li>Memiliki rasa yang sangat manis</li>\n
         </ul>
@@ -71,11 +70,12 @@
         nama kurma Tunisia atau bisa disebut deglet nour. Kurma jenis ini sangat mudah ditemui di Indonesia,
         kurma ini banyak dijual di supermarket dengan merk bermacam-macam. Berbeda dengan jenis lainnya, deglet nour
         memiliki warna coklat yang lebih cerah, rasa yang legit dan tidak terlalu manis. Kurma jenis ini
-        juga sering diolah menjadi adonan kue atau makanan lainnya.
+        juga sering diolah menjadi adonan kue atau makanan lainnya
     </string>
     <string name="deglet_cha">
         <ul>
             <li>Memiliki warna coklat cerah</li>\n
+            <li>Memiliki tekstur cenderung lembek</li>\n
             <li>Memiliki ukuran relatif besar</li>\n
             <li>Memiliki bentuk oval atau lonjong</li>\n
             <li>Memiliki rasa yang manis</li>
@@ -102,6 +102,19 @@
     <string name="detail_process">Detail Process</string>
     <string name="home">Home</string>
     <string name="detail_image">Detail Image</string>
+    <string name="undip">undip</string>
+    <string name="title">APLIKASI IDENTIFIKASI JENIS BUAH KURMA DENGAN METODE GLCM BERBASIS ANDROID</string>
+    <string name="created_by">Dibuat oleh :</string>
+    <string name="name">Mochamad Fandi\n21120115130054</string>
+    <string name="university">TEKNIK KOMPUTER\nUNIVERSITAS DIPONEGORO</string>
+    <string name="distance">Distance = 1</string>
+    <string name="angle">Angle = 0</string>
+    <string name="identification_result">Identification Result</string>
+    <string name="kurma_sukari">Kurma Sukari</string>
+    <string name="kurma_deglet">Kurma Deglet Nour</string>
+    <string name="non_kurma">Image not detected</string>
+    <string name="loading">Loading...</string>
+    <string name="close">close</string>
 
 
 </resources>

@@ -2,6 +2,7 @@ package com.example.opencvtest.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.example.opencvtest.R;
 import com.example.opencvtest.data.Dates;
+import com.github.chrisbanes.photoview.PhotoView;
 
 import java.util.List;
 
@@ -33,8 +35,20 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
         Glide.with(context).load(datesList.get(i).getImage()).into(viewHolder.ivDates);
+        viewHolder.ivDates.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
+                View mView = LayoutInflater.from(context).inflate(R.layout.photo_view,null);
+                PhotoView photoView = mView.findViewById(R.id.photo_view);
+                Glide.with(context).asBitmap().load(datesList.get(viewHolder.getAdapterPosition()).getImage()).into(photoView);
+                mBuilder.setView(mView);
+                final AlertDialog mDialog = mBuilder.create();
+                mDialog.show();
+            }
+        });
     }
 
     @Override

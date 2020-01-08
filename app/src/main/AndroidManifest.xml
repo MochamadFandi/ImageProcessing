@@ -13,21 +13,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.DetailActivity"></activity>
-        <activity android:name=".activity.ResultActivity" />
-        <activity android:name=".activity.PreviewActivity" />
-        <activity android:name=".activity.IdentificationActivity" />
-        <activity
-            android:name=".activity.InformationActivity"/>
-        <activity android:name=".activity.AboutActivity" />
-        <activity android:name=".activity.HelpActivity" />
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.SplashscreenActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.DetailActivity" />
+        <activity android:name=".activity.ResultActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.PreviewActivity" />
+        <activity android:name=".activity.IdentificationActivity" />
+        <activity android:name=".activity.InformationActivity" />
+        <activity android:name=".activity.AboutActivity" />
+        <activity android:name=".activity.HelpActivity" />
+        <activity android:name=".activity.MainActivity"/>
+
 
         <meta-data
             android:name="preloaded_fonts"

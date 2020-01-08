@@ -59,14 +59,30 @@
             android:textColor="@color/endBackground2"
             android:textSize="16sp" />
 
-
-        <ImageView
-            android:id="@+id/iv_before"
-            android:layout_width="250dp"
-            android:layout_height="333dp"
+        <android.support.v7.widget.CardView
+            android:layout_width="247dp"
+            android:layout_height="330dp"
             android:layout_marginTop="8dp"
-            android:contentDescription="@string/source_image"
-            android:src="@drawable/ic_camera_white_150dp" />
+            app:cardCornerRadius="8dp"
+            app:cardElevation="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_before"
+                    android:layout_width="250dp"
+                    android:layout_height="333dp"
+                    android:contentDescription="@string/source_image"
+                    android:src="@drawable/ic_camera_white_150dp" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
 
 
         <View
@@ -83,14 +99,30 @@
             android:textColor="@color/endBackground2"
             android:textSize="16sp" />
 
-
-        <ImageView
-            android:id="@+id/iv_after"
-            android:layout_width="250dp"
-            android:layout_height="333dp"
+        <android.support.v7.widget.CardView
+            android:layout_width="247dp"
+            android:layout_height="330dp"
             android:layout_marginTop="8dp"
-            android:contentDescription="@string/result_image"
-            android:src="@drawable/ic_camera_white_150dp" />
+            app:cardCornerRadius="8dp"
+            app:cardElevation="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/endBackground2">
+
+                <ImageView
+                    android:id="@+id/iv_after"
+                    android:layout_width="250dp"
+                    android:layout_height="333dp"
+                    android:contentDescription="@string/result_image"
+                    android:src="@drawable/ic_camera_white_150dp" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
 
         <View
             android:layout_width="match_parent"
@@ -102,11 +134,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
-            android:text="@string/analysis_details"
+            android:text="@string/identification_result"
             android:textColor="@color/endBackground2"
             android:textSize="18sp"
             android:textStyle="bold" />
-
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -135,152 +166,44 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tv_Type"
+                    android:id="@+id/tv_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/playfair_display"
                     android:text="@string/kurma_ajwa"
-                    android:textColor="@color/text2"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="24dp"
-                    android:fontFamily="@font/playfair_display"
-                    android:text="@string/glcm_feature_details"
                     android:textColor="@color/text"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="4dp"
-                    android:gravity="center">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:text="@string/energy"
-                        android:textColor="@color/text2"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_energy"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/energy"
-                        android:textColor="@color/text2"
-                        android:textSize="12sp" />
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:gravity="center">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:text="@string/contrast"
-                        android:textColor="@color/text2"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_contrast"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/contrast"
-                        android:textColor="@color/text2"
-                        android:textSize="12sp" />
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:gravity="center">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:text="@string/correlation"
-                        android:textColor="@color/text2"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_correlation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/correlation"
-                        android:textColor="@color/text2"
-                        android:textSize="12sp" />
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:gravity="center">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:text="@string/entropy"
-                        android:textColor="@color/text2"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_entropy"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/entropy"
-                        android:textColor="@color/text2"
-                        android:textSize="12sp" />
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:gravity="center">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:text="@string/homogeneity"
-                        android:textColor="@color/text2"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_homogeneity"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/homogeneity"
-                        android:textColor="@color/text2"
-                        android:textSize="12sp" />
-
-                </TableRow>
 
 
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="24dp"
+            android:background="@color/endBackground2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/analysis_details"
+            android:textColor="@color/endBackground2"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_result"
+            android:layout_width="match_parent"
+            android:layout_height="256dp">
+
+        </android.support.v4.view.ViewPager>
 
         <Button
             android:id="@+id/btn_detail"

@@ -76,4 +76,6 @@ public class InformationActivity extends AppCompatActivity {
         }
     }
 
+
+
 }
